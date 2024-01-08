@@ -3,5 +3,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   css: ["bootstrap/dist/css/bootstrap.min.css"],
-  modules: ['nuxt-icon']
+  modules: ['nuxt-icon'],
+  plugins: [
+    {
+      src: 'plugins/bootstrap.js',
+      mode: 'client'
+    }
+  ],
 });

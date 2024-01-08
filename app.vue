@@ -116,6 +116,14 @@ const mustPay = reactive({
   five: 0,
 });
 
+const badDebt = reactive({
+  one: 0,
+  two: 0,
+  three: 0,
+  four: 0,
+  five: 0,
+});
+
 const resetMustPay = () => {
   mustPay.one = 0;
   mustPay.two = 0;
@@ -131,7 +139,7 @@ const handleBargain = async () => {
       typeof rentMoney.total === "number" &&
       typeof moneyBuy.total === "number"
     ) {
-      const moneyOne = rentMoney.total / 4;
+      const moneyOne = rentMoney.total / 5;
       const moneyTwo = moneyBuy.total / 5;
 
       const one = parseFloat(moneyBuy.one) || 0;
@@ -142,37 +150,45 @@ const handleBargain = async () => {
 
       // Số tiền mỗi người trả || Số 1 là người trả tiền điện nước nhà mạng ...
       mustPay.one = parseFloat((moneyTwo - one).toFixed(2));
-      mustPay.two = parseFloat((moneyOne + moneyTwo - two).toFixed(2));
-      mustPay.three = parseFloat((moneyOne + moneyTwo - three).toFixed(2));
-      mustPay.four = parseFloat((moneyOne + moneyTwo - four).toFixed(2));
-      mustPay.five = parseFloat((moneyOne + moneyTwo - five).toFixed(2));
+      mustPay.two = parseFloat(
+        (moneyOne + moneyTwo - two + Number(badDebt.two)).toFixed(2)
+      );
+      mustPay.three = parseFloat(
+        (moneyOne + moneyTwo - three + Number(badDebt.three)).toFixed(2)
+      );
+      mustPay.four = parseFloat(
+        (moneyOne + moneyTwo - four + Number(badDebt.four)).toFixed(2)
+      );
+      mustPay.five = parseFloat(
+        (moneyOne + moneyTwo - five + Number(badDebt.five)).toFixed(2)
+      );
 
       let receiveBack: any = "K (nhận lại)";
       let noReceiveBack: any = "K";
 
       if (mustPay.one < 0) {
         mustPay.one += receiveBack;
-      } else if (mustPay.one > 0) {
+      } else if (mustPay.one >= 0) {
         mustPay.one += noReceiveBack;
       }
       if (mustPay.two < 0) {
         mustPay.two += receiveBack;
-      } else if (mustPay.two > 0) {
+      } else if (mustPay.two >= 0) {
         mustPay.two += noReceiveBack;
       }
       if (mustPay.three < 0) {
         mustPay.three += receiveBack;
-      } else if (mustPay.three > 0) {
+      } else if (mustPay.three >= 0) {
         mustPay.three += noReceiveBack;
       }
       if (mustPay.four < 0) {
         mustPay.four += receiveBack;
-      } else if (mustPay.four > 0) {
+      } else if (mustPay.four >= 0) {
         mustPay.four += noReceiveBack;
       }
       if (mustPay.five < 0) {
         mustPay.five += receiveBack;
-      } else if (mustPay.five > 0) {
+      } else if (mustPay.five >= 0) {
         mustPay.five += noReceiveBack;
       }
     }
@@ -225,7 +241,7 @@ const captureScreen = async () => {
     showToastOther();
     setTimeout(() => {
       hideToastOther();
-  }, 3000);
+    }, 3000);
   } catch (error) {
     console.error(
       'Error capturing and copying the element with class "row":',
@@ -236,8 +252,8 @@ const captureScreen = async () => {
 
 const isActive = reactive({
   submit: false,
-  check: false
-})
+  check: false,
+});
 
 const showToast = () => {
   isActive.submit = true;
@@ -397,16 +413,16 @@ const hideToastOther = () => {
           </div>
         </div>
       </div>
-      <div class="col-lg-3 d-flex justify-content-center align-items-center">
+      <div class="col-lg-2 d-flex justify-content-center align-items-center">
         <button
           class="btn btn-success w-100 btn-loader"
-          @click="handleBargain"
-          id="liveToastBtn"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
         >
           <Icon class="icon" name="ri:exchange-dollar-line" /> Chuyển đổi
         </button>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <div class="card">
           <div class="card-body">
             <p class="card-title text-uppercase text-center">
@@ -428,21 +444,41 @@ const hideToastOther = () => {
             <div class="alert alert-primary" role="alert">
               <span class="fw-bold"></span> Đan {{ mustPay.one }}
             </div>
-            <div class="alert alert-primary" role="alert">
-              Duy {{ mustPay.two }}
+            <div
+              class="alert alert-primary"
+              role="alert"
+            >
+              Duy {{ mustPay.two }} <span v-if="badDebt.two > 0" class="badge bg-warning">Đã thêm nợ {{ badDebt.two }}K</span> 
+              <span v-if="badDebt.two < 0" class="badge bg-warning">Đã trừ nợ {{ badDebt.two }}K</span>
             </div>
-            <div class="alert alert-primary" role="alert">
-              Hải {{ mustPay.three }}
+            <div
+              class="alert alert-primary"
+              role="alert"
+            >
+              Hải {{ mustPay.three }} <span v-if="badDebt.three > 0" class="badge bg-warning">Đã thêm nợ {{ badDebt.three }}K</span> 
+              <span v-if="badDebt.three < 0" class="badge bg-warning">Đã trừ nợ {{ badDebt.three }}K</span>
             </div>
-            <div class="alert alert-primary" role="alert">
-              Hùng {{ mustPay.four }}
+            <div
+              class="alert alert-primary"
+              role="alert"
+            >
+              Hùng {{ mustPay.four }} <span v-if="badDebt.four > 0" class="badge bg-warning">Đã thêm nợ {{ badDebt.four }}K</span> 
+              <span v-if="badDebt.four < 0" class="badge bg-warning">Đã trừ nợ {{ badDebt.four }}K</span>
             </div>
-            <div class="alert alert-primary" role="alert">
-              Hào {{ mustPay.five }}
+            <div
+              class="alert alert-primary"
+              role="alert"
+            >
+              Hào {{ mustPay.five }} <span v-if="badDebt.five > 0" class="badge bg-warning">Đã thêm nợ {{ badDebt.five }}K</span> 
+              <span v-if="badDebt.five < 0" class="badge bg-warning">Đã trừ nợ {{ badDebt.five }}K</span>
             </div>
             <hr />
             <div>
-              <button class="btn btn-danger w-100" id="liveToast" @click="captureScreen">
+              <button
+                class="btn btn-danger w-100"
+                id="liveToast"
+                @click="captureScreen"
+              >
                 In hóa đơn
               </button>
             </div>
@@ -503,6 +539,93 @@ const hideToastOther = () => {
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Trừ tiền nợ xấu</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Thêm dấu (-) nếu bạn đang nợ ngta. VD: -10</p>
+          <p>Thêm dấu (+) nếu ngta đang nợ bạn. VD: 10, +10</p>
+          <div>
+            <label class="mt-3 mb-2 card-title">Duy</label>
+            <input
+              type="text"
+              class="form-control"
+              id="input-home"
+              placeholder="Nhập số tiền"
+              v-model="badDebt.two"
+            />
+          </div>
+          <div>
+            <label class="mt-3 mb-2 card-title">Hải</label>
+            <input
+              type="text"
+              class="form-control"
+              id="input-home"
+              placeholder="Nhập số tiền"
+              v-model="badDebt.three"
+            />
+          </div>
+          <div>
+            <label class="mt-3 mb-2 card-title">Hùng</label>
+            <input
+              type="text"
+              class="form-control"
+              id="input-home"
+              placeholder="Nhập số tiền"
+              v-model="badDebt.four"
+            />
+          </div>
+          <div>
+            <label class="mt-3 mb-2 card-title">Hào</label>
+            <input
+              type="text"
+              class="form-control"
+              id="input-home"
+              placeholder="Nhập số tiền"
+              v-model="badDebt.five"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="handleBargain"
+            id="liveToastBtn"
+          >
+            Understood
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -524,7 +647,6 @@ const hideToastOther = () => {
 .icon {
   font-size: 1.5rem;
 }
-
 
 @keyframes bounceInRight {
   0% {
