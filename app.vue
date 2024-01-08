@@ -273,9 +273,9 @@ const hideToastOther = () => {
 </script>
 
 <template>
-  <div class="wapper d-flex justify-content-center align-items-center">
+  <div class="wapper d-flex justify-content-sm-center align-items-sm-center">
     <div class="row d-flex justify-content-center align-items-center">
-      <div class="col-lg-3">
+      <div class="col-sm-3 col-12">
         <div class="card">
           <div class="card-body">
             <p class="card-title text-uppercase text-center">Tiền sinh hoạt</p>
@@ -352,7 +352,7 @@ const hideToastOther = () => {
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-sm-3 col-12">
         <div class="card">
           <div class="card-body">
             <p class="card-title text-uppercase text-center">Tiền đồ đã mua</p>
@@ -413,16 +413,16 @@ const hideToastOther = () => {
           </div>
         </div>
       </div>
-      <div class="col-lg-2 d-flex justify-content-center align-items-center">
+      <div class="col-sm-2 col-12 d-flex justify-content-center align-items-center">
         <button
-          class="btn btn-success w-100 btn-loader"
+          class="btn btn-success btn-loader"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
           <Icon class="icon" name="ri:exchange-dollar-line" /> Chuyển đổi
         </button>
       </div>
-      <div class="col-lg-4">
+      <div class="col-sm-4 col-12">
         <div class="card">
           <div class="card-body">
             <p class="card-title text-uppercase text-center">
@@ -632,7 +632,6 @@ const hideToastOther = () => {
 .wapper {
   background-color: #f0f1f7;
   height: 100vh;
-  padding: 20px;
 }
 
 .card {
