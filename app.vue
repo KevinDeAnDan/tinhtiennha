@@ -628,7 +628,7 @@ const hideToastOther = () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .wapper {
   background-color: #f0f1f7;
   height: 100vh;
