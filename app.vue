@@ -431,12 +431,12 @@ const hideToastOther = () => {
             </p>
             <div class="alert alert-danger" role="alert">
               <span
-                >Dự kiến thu tiền nhà: <br /><span class="text-danger fw-bold"
+                >Dự kiến thu tiền nhà: <span class="text-danger fw-bold"
                   >15/{{ currentDate.payHome }}/{{ currentDate.year }}</span
                 ></span
               ><br />
               <span
-                >Dự kiến thu tiền Net: <br /><span class="text-danger fw-bold"
+                >Dự kiến thu tiền Net: <span class="text-danger fw-bold"
                   >1/{{ currentDate.payInternet }}/{{ currentDate.year }}</span
                 ></span
               >
@@ -562,8 +562,8 @@ const hideToastOther = () => {
           ></button>
         </div>
         <div class="modal-body">
-          <p>Thêm dấu (-) nếu bạn đang nợ ngta. VD: -10</p>
-          <p>Thêm dấu (+) nếu ngta đang nợ bạn. VD: 10, +10</p>
+          <p class="text-danger">Trừ nợ thì thêm dấu (-)</p>
+          <p class="text-danger">Cộng thêm nợ dấu (+)</p>
           <div>
             <label class="mt-3 mb-2 card-title">Duy</label>
             <input
