@@ -149,7 +149,6 @@ const handleBargain = async () => {
       const five = parseFloat(moneyBuy.five) || 0;
 
       // Số tiền mỗi người trả || Số 1 là người trả tiền điện nước nhà mạng ...
-      mustPay.one = parseFloat((moneyTwo - one).toFixed(2));
       mustPay.two = parseFloat(
         (moneyOne + moneyTwo - two + Number(badDebt.two)).toFixed(2)
       );
@@ -162,6 +161,7 @@ const handleBargain = async () => {
       mustPay.five = parseFloat(
         (moneyOne + moneyTwo - five + Number(badDebt.five)).toFixed(2)
       );
+      mustPay.one = parseFloat((moneyOne + moneyTwo - one).toFixed(2));
 
       let receiveBack: any = "K (nhận lại)";
       let noReceiveBack: any = "K";
@@ -242,6 +242,7 @@ const captureScreen = async () => {
     setTimeout(() => {
       hideToastOther();
     }, 3000);
+    test()
   } catch (error) {
     console.error(
       'Error capturing and copying the element with class "row":',
@@ -249,6 +250,34 @@ const captureScreen = async () => {
     );
   }
 };
+
+const test = async () => {
+  try {
+    const rowElement = document.querySelector('.wapper') as HTMLElement;
+
+    if (rowElement) {
+      const screenshot = await html2canvas(rowElement);
+      const imageBase64 = screenshot.toDataURL('image/png');
+
+      const img = new Image();
+      img.src = imageBase64;
+
+      img.onload = () => {
+        document.body.appendChild(img); // Hiển thị ảnh trong DOM để kiểm tra
+
+        // Tùy chỉnh để lưu hoặc sử dụng ảnh tùy ý
+        // navigator.clipboard.write([new ClipboardItem({ 'image/png': img })]);
+      };
+    } else {
+      console.error('Không tìm thấy phần tử có class "wapper"');
+    }
+  } catch (error) {
+    console.error('Lỗi khi chụp màn hình:', error);
+  }
+};
+
+
+
 
 const isActive = reactive({
   submit: false,
@@ -611,7 +640,7 @@ const hideToastOther = () => {
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
-            Close
+            Đóng
           </button>
           <button
             type="button"
@@ -620,7 +649,7 @@ const hideToastOther = () => {
             @click="handleBargain"
             id="liveToastBtn"
           >
-            Understood
+            Xác nhận
           </button>
         </div>
       </div>
